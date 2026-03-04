@@ -9,6 +9,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDividerModule } from '@angular/material/divider';
 import { ThemeService } from '../../core/services/theme.service';
 import { NotificationService } from '../../core/services/notification.service';
+import { LanguageService } from '../../core/services/language.service';
+import { TranslatePipe } from '../../shared/pipes/translate.pipe';
 
 @Component({
   selector: 'app-settings',
@@ -17,51 +19,47 @@ import { NotificationService } from '../../core/services/notification.service';
     AsyncPipe, FormsModule,
     MatIconModule, MatButtonModule, MatSlideToggleModule,
     MatSelectModule, MatFormFieldModule, MatDividerModule,
+    TranslatePipe,
   ],
   templateUrl: './settings.component.html',
   styleUrl: './settings.component.scss',
 })
 export class SettingsComponent implements OnInit {
-  theme  = inject(ThemeService);
-  notify = inject(NotificationService);
+  theme   = inject(ThemeService);
+  notify  = inject(NotificationService);
+  langSvc = inject(LanguageService);
 
   pageSize = 10;
   language = 'en';
-  exportFormat = 'csv';
 
   ngOnInit(): void {
     const saved = localStorage.getItem('fss-page-size');
     if (saved) this.pageSize = Number(saved);
-    const lang = localStorage.getItem('fss-language');
-    if (lang) this.language = lang;
+    this.language = this.langSvc.current;
   }
 
   savePageSize(): void {
     localStorage.setItem('fss-page-size', String(this.pageSize));
-    this.notify.success('Preferences saved.');
+    this.notify.success(this.langSvc.t('settings.saved'));
   }
 
   saveLanguage(): void {
-    localStorage.setItem('fss-language', this.language);
-    this.notify.success('Language preference saved.');
+    this.langSvc.setLanguage(this.language);
+    this.notify.success(this.langSvc.t('settings.lang-saved'));
   }
 
   exportData(): void {
-    const data = [
-      ['ID', 'Title', 'Status', 'Priority', 'Customer', 'Zone', 'Created'],
-      ['1', 'HVAC Unit Installation', 'scheduled', '2', 'Acme Corporation', 'North', '2024-04-01'],
-      ['2', 'Electrical Panel Repair', 'in_progress', '1', 'Tech Solutions LLC', 'South', '2024-04-02'],
-      ['...', '(open the requests page for full data)', '', '', '', '', ''],
-    ];
-    const csv = data.map(row => row.join(',')).join('\n');
-    const blob = new Blob([csv], { type: 'text/csv' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `fss-export-${new Date().toISOString().slice(0, 10)}.csv`;
-    a.click();
-    URL.revokeObjectURL(url);
-    this.notify.success('Export started — file downloaded.');
+    if (window.api) {
+      window.api.export.csv().then(result => {
+        if (result.success) {
+          this.notify.success(`${this.langSvc.t('settings.export-ok')} ${result.path}`);
+        }
+      }).catch(err => {
+        this.notify.error(`${this.langSvc.t('settings.export-fail')} ${(err as Error).message}`);
+      });
+    } else {
+      this.notify.info(this.langSvc.t('settings.export-electron'));
+    }
   }
 
   showTestNotification(): void {

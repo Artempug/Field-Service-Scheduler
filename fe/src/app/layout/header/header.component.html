@@ -1,5 +1,5 @@
 <header class="header">
-  
+
   <div class="header-left">
     <nav class="breadcrumbs" aria-label="breadcrumb">
       @for (crumb of (breadcrumbs$ | async) ?? []; track crumb.label; let last = $last) {
@@ -14,20 +14,20 @@
     <h1 class="page-title-text">{{ pageTitle$ | async }}</h1>
   </div>
 
-  
+
   <div class="header-right">
-    
+
     <button
       mat-icon-button
       (click)="theme.toggle()"
-      [matTooltip]="(theme.isDark$ | async) ? 'Switch to Light Mode' : 'Switch to Dark Mode'"
+      [matTooltip]="(theme.isDark$ | async) ? ('header.theme-light' | translate) : ('header.theme-dark' | translate)"
       class="theme-btn"
     >
       <mat-icon>{{ (theme.isDark$ | async) ? 'light_mode' : 'dark_mode' }}</mat-icon>
     </button>
 
-    
-    <button mat-icon-button matTooltip="Notifications" class="notif-btn">
+
+    <button mat-icon-button [matTooltip]="'header.notifications' | translate" class="notif-btn">
       <mat-icon>notifications_none</mat-icon>
     </button>
   </div>

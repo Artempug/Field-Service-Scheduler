@@ -1,0 +1,41 @@
+{
+  "name": "field-service-scheduler",
+  "version": "1.0.0",
+  "description": "Field Service Scheduling Desktop Application",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "dev": "concurrently \"npm run fe:serve\" \"wait-on http://localhost:4200 && electron . --dev\"",
+    "fe:serve": "cd fe && npx ng serve",
+    "fe:build": "cd fe && npx ng build --base-href ./",
+    "rebuild": "electron-rebuild -f -w better-sqlite3",
+    "pack": "electron-builder --dir",
+    "dist": "npm run fe:build && electron-builder",
+    "setup": "npm install --ignore-scripts && npx electron-rebuild -f -w better-sqlite3"
+  },
+  "build": {
+    "appId": "com.fss.app",
+    "productName": "Field Service Scheduler",
+    "files": [
+      "main.js",
+      "preload.js",
+      "src/**/*",
+      "db/**/*",
+      "fe/dist/**/*"
+    ],
+    "win": {
+      "target": "nsis",
+      "icon": "fe/public/favicon.ico"
+    }
+  },
+  "dependencies": {
+    "better-sqlite3": "^11.5.0"
+  },
+  "devDependencies": {
+    "@electron/rebuild": "^3.6.0",
+    "concurrently": "^9.1.0",
+    "electron": "^33.2.0",
+    "electron-builder": "^25.1.8",
+    "wait-on": "^8.0.1"
+  }
+}
