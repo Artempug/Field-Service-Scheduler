@@ -13,6 +13,8 @@ import { switchMap, of, catchError, Observable, map, startWith } from 'rxjs';
 import { DataService } from '../../../core/services/data.service';
 import { NotificationService } from '../../../core/services/notification.service';
 import { ServiceRequest, RequestStatus } from '../../../core/models';
+import { TranslatePipe } from '../../../shared/pipes/translate.pipe';
+import { PriorityLabelPipe } from '../../../shared/pipes/priority-label.pipe';
 
 @Component({
   selector: 'app-request-form',
@@ -21,6 +23,7 @@ import { ServiceRequest, RequestStatus } from '../../../core/models';
     AsyncPipe, NgClass, RouterLink, ReactiveFormsModule,
     MatFormFieldModule, MatInputModule, MatSelectModule,
     MatButtonModule, MatIconModule, MatProgressSpinnerModule, MatDividerModule,
+    TranslatePipe, PriorityLabelPipe,
   ],
   templateUrl: './request-form.component.html',
   styleUrl: './request-form.component.scss',

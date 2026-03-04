@@ -16,6 +16,7 @@ import { debounceTime, startWith, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { DataService } from '../../core/services/data.service';
 import { AuditLog, PagedResult } from '../../core/models';
+import { TranslatePipe } from '../../shared/pipes/translate.pipe';
 
 @Component({
   selector: 'app-audit-log',
@@ -25,6 +26,7 @@ import { AuditLog, PagedResult } from '../../core/models';
     MatTableModule, MatPaginatorModule,
     MatFormFieldModule, MatInputModule, MatSelectModule,
     MatButtonModule, MatIconModule, MatProgressBarModule,
+    TranslatePipe,
   ],
   templateUrl: './audit-log.component.html',
   styleUrl: './audit-log.component.scss',

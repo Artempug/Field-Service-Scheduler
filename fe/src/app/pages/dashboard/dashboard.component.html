@@ -1,6 +1,6 @@
 @if (state$ | async; as state) {
   @if (state.loading) {
-    
+
     <div class="skeleton-grid">
       @for (_ of [1,2,3,4]; track $index) {
         <div class="skeleton-card">
@@ -12,20 +12,18 @@
   } @else if (state.error) {
     <div class="empty-state">
       <mat-icon class="empty-icon">error_outline</mat-icon>
-      <p class="empty-title">Failed to load dashboard</p>
+      <p class="empty-title">{{ 'dashboard.load-error' | translate }}</p>
       <p class="empty-text">{{ state.error }}</p>
-      <button mat-flat-button color="primary" (click)="load()">
-        <mat-icon>refresh</mat-icon> Retry
-      </button>
+      <button mat-flat-button color="primary" (click)="load()">{{ 'common.retry' | translate }}</button>
     </div>
   } @else if (state.data) {
     @let stats = state.data;
-    
+
     <div class="stat-grid">
       <div class="stat-card stat-total">
         <div class="stat-icon"><mat-icon>assignment</mat-icon></div>
         <div class="stat-body">
-          <span class="stat-label">Total Requests</span>
+          <span class="stat-label">{{ 'dashboard.total' | translate }}</span>
           <span class="stat-value">{{ stats.total }}</span>
         </div>
       </div>
@@ -33,7 +31,7 @@
       <div class="stat-card stat-active">
         <div class="stat-icon"><mat-icon>pending_actions</mat-icon></div>
         <div class="stat-body">
-          <span class="stat-label">Active</span>
+          <span class="stat-label">{{ 'dashboard.active' | translate }}</span>
           <span class="stat-value">{{ stats.active }}</span>
         </div>
       </div>
@@ -41,7 +39,7 @@
       <div class="stat-card stat-done">
         <div class="stat-icon"><mat-icon>check_circle</mat-icon></div>
         <div class="stat-body">
-          <span class="stat-label">Completed</span>
+          <span class="stat-label">{{ 'dashboard.completed' | translate }}</span>
           <span class="stat-value">{{ stats.done }}</span>
         </div>
       </div>
@@ -49,18 +47,18 @@
       <div class="stat-card stat-cancelled">
         <div class="stat-icon"><mat-icon>cancel</mat-icon></div>
         <div class="stat-body">
-          <span class="stat-label">Cancelled</span>
+          <span class="stat-label">{{ 'dashboard.cancelled' | translate }}</span>
           <span class="stat-value">{{ stats.cancelled }}</span>
         </div>
       </div>
     </div>
 
-    
+
     <div class="dashboard-body">
-      
+
       <div class="card chart-card">
         <div class="card-header">
-          <h3 class="card-title">Status Distribution</h3>
+          <h3 class="card-title">{{ 'dashboard.status-dist' | translate }}</h3>
         </div>
         <div class="status-bars">
           @for (key of statusKeys; track key) {
@@ -81,10 +79,10 @@
         </div>
       </div>
 
-      
+
       <div class="card chart-card">
         <div class="card-header">
-          <h3 class="card-title">Priority Breakdown</h3>
+          <h3 class="card-title">{{ 'dashboard.priority-chart' | translate }}</h3>
         </div>
         <div class="priority-list">
           @for (p of [1,2,3,4,5]; track p) {
@@ -105,20 +103,17 @@
       </div>
     </div>
 
-    
+
     <div class="card recent-card">
       <div class="card-header">
-        <h3 class="card-title">Recent Activity</h3>
-        <a mat-stroked-button routerLink="/requests" class="view-all-btn">
-          View All
-          <mat-icon iconPositionEnd>arrow_forward</mat-icon>
-        </a>
+        <h3 class="card-title">{{ 'dashboard.recent' | translate }}</h3>
+        <a mat-stroked-button routerLink="/requests" class="view-all-btn">{{ 'dashboard.view-all' | translate }}</a>
       </div>
 
       @if (!stats.recentRequests.length) {
         <div class="empty-state" style="padding: 32px 0">
           <mat-icon class="empty-icon">inbox</mat-icon>
-          <p class="empty-title">No requests yet</p>
+          <p class="empty-title">{{ 'dashboard.no-requests' | translate }}</p>
         </div>
       } @else {
         <div class="recent-list">
@@ -143,16 +138,10 @@
       }
     </div>
 
-    
+
     <div class="quick-actions">
-      <a mat-flat-button color="primary" routerLink="/requests/new">
-        <mat-icon>add</mat-icon>
-        New Request
-      </a>
-      <a mat-stroked-button routerLink="/audit-log">
-        <mat-icon>history</mat-icon>
-        View Audit Log
-      </a>
+      <a mat-flat-button color="primary" routerLink="/requests/new">{{ 'common.new-request' | translate }}</a>
+      <a mat-stroked-button routerLink="/audit-log">{{ 'dashboard.view-audit' | translate }}</a>
     </div>
   }
 }

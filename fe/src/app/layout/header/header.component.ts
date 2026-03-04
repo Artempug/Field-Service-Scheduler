@@ -10,7 +10,6 @@ import { TranslatePipe } from '../../shared/pipes/translate.pipe';
 import { combineLatest } from 'rxjs';
 import { filter, map, startWith } from 'rxjs/operators';
 
-// Map route segment → translation key
 const ROUTE_KEYS: Record<string, string> = {
   dashboard:   'page.dashboard',
   requests:    'page.requests',

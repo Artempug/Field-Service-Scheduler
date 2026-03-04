@@ -16,8 +16,6 @@ import {
   Zone,
 } from '../models';
 
-// ── Electron IPC helpers ──────────────────────────────────────────────────────
-
 function isElectron(): boolean {
   return !!window.api;
 }
@@ -35,8 +33,6 @@ function unwrap<T>(value: T): T {
 function fromApi<T>(promise: Promise<T>): Observable<T> {
   return from(promise.then(unwrap));
 }
-
-// ── Browser mock data (used when window.api is not available) ─────────────────
 
 const ZONES: Zone[] = [
   { id: 1, name: 'North' },
@@ -136,8 +132,6 @@ const MOCK_AUDIT: AuditLog[] = [
   { id: 19, entity: 'request',    entity_id: 19, action: 'update', actor: 'admin',   details: 'status: in_progress → done',    created_at: d(2024,3,22,14) },
   { id: 20, entity: 'request',    entity_id: 17, action: 'create', actor: 'admin',   details: 'Request created',               created_at: d(2024,4,9,9)   },
 ];
-
-// ── Mock implementation (browser fallback) ────────────────────────────────────
 
 let mockNextId   = MOCK_REQUESTS.length + 1;
 let mockNextAuditId = MOCK_AUDIT.length + 1;
@@ -250,8 +244,6 @@ class MockDataService {
     this._audit.next([{ id: mockNextAuditId++, entity, entity_id: entityId, action, actor: 'admin', details, created_at: new Date().toISOString() }, ...this._audit.value]);
   }
 }
-
-// ── Public service (auto-selects Electron IPC or browser mock) ────────────────
 
 @Injectable({ providedIn: 'root' })
 export class DataService {

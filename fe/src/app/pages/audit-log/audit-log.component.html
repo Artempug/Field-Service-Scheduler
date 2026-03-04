@@ -1,14 +1,14 @@
 <div class="log-toolbar">
   <mat-form-field appearance="outline" class="filter-field">
-    <mat-label>Actor</mat-label>
+    <mat-label>{{ 'audit.filter-actor' | translate }}</mat-label>
     <mat-icon matPrefix>person</mat-icon>
-    <input matInput placeholder="Search actor…" [formControl]="filterForm.controls.actor" />
+    <input matInput [placeholder]="'audit.search-actor' | translate" [formControl]="filterForm.controls.actor" />
   </mat-form-field>
 
   <mat-form-field appearance="outline" class="filter-field">
-    <mat-label>Entity</mat-label>
+    <mat-label>{{ 'audit.filter-entity' | translate }}</mat-label>
     <mat-select [formControl]="filterForm.controls.entity">
-      <mat-option value="">All entities</mat-option>
+      <mat-option value="">{{ 'audit.all-entities' | translate }}</mat-option>
       @for (e of entities; track e) {
         <mat-option [value]="e">{{ e }}</mat-option>
       }
@@ -16,9 +16,9 @@
   </mat-form-field>
 
   <mat-form-field appearance="outline" class="filter-field">
-    <mat-label>Action</mat-label>
+    <mat-label>{{ 'audit.filter-action' | translate }}</mat-label>
     <mat-select [formControl]="filterForm.controls.action">
-      <mat-option value="">All actions</mat-option>
+      <mat-option value="">{{ 'audit.all-actions' | translate }}</mat-option>
       @for (a of actions; track a) {
         <mat-option [value]="a">{{ a }}</mat-option>
       }
@@ -26,14 +26,11 @@
   </mat-form-field>
 
   @if (hasActiveFilters) {
-    <button mat-stroked-button (click)="clearFilters()">
-      <mat-icon>filter_alt_off</mat-icon>
-      Clear
-    </button>
+    <button mat-stroked-button (click)="clearFilters()">{{ 'common.clear' | translate }}</button>
   }
 
   <span class="spacer"></span>
-  <span class="total-label">{{ result.total }} entries</span>
+  <span class="total-label">{{ result.total }} {{ 'audit.entries' | translate }}</span>
 </div>
 
 @if (loading) {
@@ -44,37 +41,34 @@
   @if (error) {
     <div class="empty-state">
       <mat-icon class="empty-icon">error_outline</mat-icon>
-      <p class="empty-title">Failed to load audit log</p>
+      <p class="empty-title">{{ 'audit.load-error' | translate }}</p>
       <p class="empty-text">{{ error }}</p>
     </div>
   } @else if (!loading && result.total === 0) {
     <div class="empty-state">
       <mat-icon class="empty-icon">history</mat-icon>
-      <p class="empty-title">No log entries</p>
+      <p class="empty-title">{{ 'audit.none' | translate }}</p>
       <p class="empty-text">
-        {{ hasActiveFilters ? 'No entries match the current filters.' : 'Actions will appear here as they happen.' }}
+        {{ (hasActiveFilters ? 'audit.none-filtered' : 'audit.none-empty') | translate }}
       </p>
       @if (hasActiveFilters) {
-        <button mat-stroked-button (click)="clearFilters()">
-          <mat-icon>filter_alt_off</mat-icon>
-          Clear filters
-        </button>
+        <button mat-stroked-button (click)="clearFilters()">{{ 'common.clear-filters' | translate }}</button>
       }
     </div>
   } @else {
     <div class="log-list">
       @for (entry of result.items; track entry.id) {
         <div class="log-entry" [class.expanded]="expanded === entry.id">
-          
+
           <div class="timeline-dot {{ actionClass(entry.action) }}">
             <mat-icon>{{ actionIcon(entry.action) }}</mat-icon>
           </div>
 
-          
+
           <div class="entry-body" (click)="toggleExpand(entry.id)">
             <div class="entry-main">
               <div class="entry-text">
-                <span class="entry-actor">{{ entry.actor ?? 'system' }}</span>
+                <span class="entry-actor">{{ entry.actor ?? ('audit.system' | translate) }}</span>
                 <span class="action-badge {{ actionClass(entry.action) }}">{{ entry.action }}</span>
                 <span class="entry-entity">{{ entry.entity }} #{{ entry.entity_id }}</span>
               </div>
@@ -90,20 +84,20 @@
               <div class="entry-details">
                 @if (entry.details) {
                   <div class="detail-row">
-                    <span class="detail-key">Details</span>
+                    <span class="detail-key">{{ 'audit.detail-details' | translate }}</span>
                     <span class="detail-val">{{ entry.details }}</span>
                   </div>
                 }
                 <div class="detail-row">
-                  <span class="detail-key">Entity</span>
+                  <span class="detail-key">{{ 'audit.detail-entity' | translate }}</span>
                   <span class="detail-val">{{ entry.entity }} / ID: {{ entry.entity_id }}</span>
                 </div>
                 <div class="detail-row">
-                  <span class="detail-key">Actor</span>
-                  <span class="detail-val">{{ entry.actor ?? 'system' }}</span>
+                  <span class="detail-key">{{ 'audit.detail-actor' | translate }}</span>
+                  <span class="detail-val">{{ entry.actor ?? ('audit.system' | translate) }}</span>
                 </div>
                 <div class="detail-row">
-                  <span class="detail-key">Timestamp</span>
+                  <span class="detail-key">{{ 'audit.detail-timestamp' | translate }}</span>
                   <span class="detail-val">{{ entry.created_at | date:'full' }}</span>
                 </div>
               </div>
@@ -113,7 +107,7 @@
       }
     </div>
 
-    
+
     <div class="paginator-wrapper">
       <mat-paginator
         [length]="result.total"

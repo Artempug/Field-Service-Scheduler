@@ -8,6 +8,7 @@ import { Observable, catchError, of, startWith, map, switchMap } from 'rxjs';
 import { DataService } from '../../core/services/data.service';
 import { DashboardStats, RequestStatus } from '../../core/models';
 import { StatusLabelPipe } from '../../shared/pipes/status-label.pipe';
+import { TranslatePipe } from '../../shared/pipes/translate.pipe';
 
 interface LoadState<T> {
   loading: boolean;
@@ -30,7 +31,7 @@ const STATUS_ICONS: Record<string, string> = {
   imports: [
     AsyncPipe, DatePipe, NgClass, RouterLink,
     MatIconModule, MatButtonModule, MatProgressSpinnerModule,
-    StatusLabelPipe,
+    StatusLabelPipe, TranslatePipe,
   ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss',

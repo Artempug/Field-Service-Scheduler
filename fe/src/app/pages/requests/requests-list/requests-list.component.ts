@@ -25,6 +25,7 @@ import { NotificationService } from '../../../core/services/notification.service
 import { ServiceRequest, RequestFilters, PagedResult, RequestStatus } from '../../../core/models';
 import { StatusLabelPipe } from '../../../shared/pipes/status-label.pipe';
 import { PriorityLabelPipe } from '../../../shared/pipes/priority-label.pipe';
+import { TranslatePipe } from '../../../shared/pipes/translate.pipe';
 import { ConfirmDialogComponent } from '../../../shared/components/confirm-dialog/confirm-dialog.component';
 
 @Component({
@@ -36,7 +37,7 @@ import { ConfirmDialogComponent } from '../../../shared/components/confirm-dialo
     MatFormFieldModule, MatInputModule, MatSelectModule,
     MatButtonModule, MatIconModule, MatMenuModule, MatTooltipModule,
     MatProgressBarModule, MatDialogModule,
-    StatusLabelPipe, PriorityLabelPipe,
+    StatusLabelPipe, PriorityLabelPipe, TranslatePipe,
   ],
   templateUrl: './requests-list.component.html',
   styleUrl: './requests-list.component.scss',

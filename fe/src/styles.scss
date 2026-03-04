@@ -152,18 +152,69 @@ body.dark-theme .status-badge {
 .snack-undo    .mdc-snackbar__surface { background: #1e293b !important; }
 
 body.dark-theme {
+  .stat-total .stat-icon     { background: #2e1d5e; color: #c4b5fd; }
+  .stat-active .stat-icon    { background: #422006; color: #fde68a; }
+  .stat-done .stat-icon      { background: #052e16; color: #86efac; }
+  .stat-cancelled .stat-icon { background: #3b0e0e; color: #fca5a5; }
+}
+
+body.dark-theme .recent-icon {
+  &.new         { background: #1e3a5f; color: #60a5fa; }
+  &.scheduled   { background: #2e1d5e; color: #c4b5fd; }
+  &.en_route    { background: #431407; color: #fb923c; }
+  &.in_progress { background: #422006; color: #fcd34d; }
+  &.done        { background: #052e16; color: #34d399; }
+  &.cancelled   { background: #1c1c1e; color: #9ca3af; }
+}
+
+body.dark-theme .timeline-dot,
+body.dark-theme .action-badge {
+  &.action-create { background: #052e16; color: #86efac; }
+  &.action-update { background: #1e3a5f; color: #93c5fd; }
+  &.action-delete { background: #3b0e0e; color: #fca5a5; }
+}
+
+body.dark-theme {
   .mat-mdc-table          { background: transparent !important; }
   .mat-mdc-header-cell    { background: var(--color-surface) !important; color: var(--color-text-muted) !important; }
   .mat-mdc-cell           { color: var(--color-text) !important; border-bottom-color: var(--color-border) !important; }
   .mat-mdc-row:hover .mat-mdc-cell { background: rgba(255,255,255,0.03) !important; }
-  .mat-mdc-form-field-flex { background: var(--color-surface) !important; }
-  .mat-mdc-select-panel  { background: var(--color-surface) !important; }
-  .mat-mdc-option        { color: var(--color-text) !important; }
-  .mdc-text-field--outlined .mdc-notched-outline__leading,
-  .mdc-text-field--outlined .mdc-notched-outline__notch,
-  .mdc-text-field--outlined .mdc-notched-outline__trailing {
+  .mat-mdc-form-field-flex,
+  .mdc-text-field--outlined { background: transparent !important; }
+  .mat-mdc-select-panel   { background: var(--color-surface) !important; }
+  .mat-mdc-option         { color: var(--color-text) !important; background: var(--color-surface) !important; }
+  .mat-mdc-option:hover,
+  .mat-mdc-option.mdc-list-item--selected { background: rgba(255,255,255,0.06) !important; }
+  .mat-mdc-select-value-text,
+  .mat-mdc-select-placeholder { color: var(--color-text) !important; }
+  .mat-mdc-input-element,
+  .mdc-text-field__input  { color: var(--color-text) !important; caret-color: var(--color-text) !important; }
+  .mdc-text-field__input::placeholder { color: var(--color-text-muted) !important; }
+  .mdc-floating-label     { color: var(--color-text-muted) !important; }
+  .mat-pseudo-checkbox-minimal { display: none !important; }
+  .mat-mdc-option .mdc-list-item__state-layer { background-color: transparent !important; }
+  .mat-mdc-option.mdc-list-item--selected .mdc-list-item__state-layer { background-color: rgba(255,255,255,0.06) !important; }
+  .mat-mdc-option.mat-mdc-option-active .mdc-list-item__state-layer { background-color: rgba(255,255,255,0.06) !important; }
+  .mdc-notched-outline__leading,
+  .mdc-notched-outline__notch,
+  .mdc-notched-outline__trailing {
     border-color: var(--color-border) !important;
+  }
+  .mat-mdc-form-field {
+    --mdc-outlined-text-field-outline-color: var(--color-border);
+    --mdc-outlined-text-field-hover-outline-color: var(--color-text-muted);
+    --mdc-outlined-text-field-focus-outline-color: var(--color-primary);
+    --mdc-outlined-text-field-container-color: transparent;
   }
   .mat-mdc-dialog-surface { background: var(--color-surface) !important; }
   .mat-mdc-paginator      { background: transparent !important; color: var(--color-text-muted) !important; }
+  .mat-mdc-paginator-range-label,
+  .mat-mdc-paginator-page-size-label { color: var(--color-text-muted) !important; }
+  .mat-mdc-icon-button    { color: var(--color-text-muted) !important; }
+  .mat-mdc-slide-toggle .mdc-label { color: var(--color-text) !important; }
+  .mat-mdc-unelevated-button:disabled,
+  .mat-mdc-unelevated-button[disabled] {
+    --mdc-filled-button-disabled-container-color: rgba(56, 189, 248, 0.18) !important;
+    --mdc-filled-button-disabled-label-text-color: rgba(226, 232, 240, 0.45) !important;
+  }
 }
