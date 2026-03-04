@@ -1,0 +1,158 @@
+@if (state$ | async; as state) {
+  @if (state.loading) {
+    
+    <div class="skeleton-grid">
+      @for (_ of [1,2,3,4]; track $index) {
+        <div class="skeleton-card">
+          <div class="skeleton" style="height:20px;width:60%;margin-bottom:12px"></div>
+          <div class="skeleton" style="height:40px;width:40%"></div>
+        </div>
+      }
+    </div>
+  } @else if (state.error) {
+    <div class="empty-state">
+      <mat-icon class="empty-icon">error_outline</mat-icon>
+      <p class="empty-title">Failed to load dashboard</p>
+      <p class="empty-text">{{ state.error }}</p>
+      <button mat-flat-button color="primary" (click)="load()">
+        <mat-icon>refresh</mat-icon> Retry
+      </button>
+    </div>
+  } @else if (state.data) {
+    @let stats = state.data;
+    
+    <div class="stat-grid">
+      <div class="stat-card stat-total">
+        <div class="stat-icon"><mat-icon>assignment</mat-icon></div>
+        <div class="stat-body">
+          <span class="stat-label">Total Requests</span>
+          <span class="stat-value">{{ stats.total }}</span>
+        </div>
+      </div>
+
+      <div class="stat-card stat-active">
+        <div class="stat-icon"><mat-icon>pending_actions</mat-icon></div>
+        <div class="stat-body">
+          <span class="stat-label">Active</span>
+          <span class="stat-value">{{ stats.active }}</span>
+        </div>
+      </div>
+
+      <div class="stat-card stat-done">
+        <div class="stat-icon"><mat-icon>check_circle</mat-icon></div>
+        <div class="stat-body">
+          <span class="stat-label">Completed</span>
+          <span class="stat-value">{{ stats.done }}</span>
+        </div>
+      </div>
+
+      <div class="stat-card stat-cancelled">
+        <div class="stat-icon"><mat-icon>cancel</mat-icon></div>
+        <div class="stat-body">
+          <span class="stat-label">Cancelled</span>
+          <span class="stat-value">{{ stats.cancelled }}</span>
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="dashboard-body">
+      
+      <div class="card chart-card">
+        <div class="card-header">
+          <h3 class="card-title">Status Distribution</h3>
+        </div>
+        <div class="status-bars">
+          @for (key of statusKeys; track key) {
+            <div class="bar-row">
+              <div class="bar-meta">
+                <span class="bar-label">{{ key | statusLabel }}</span>
+                <span class="bar-count">{{ stats.byStatus[key] ?? 0 }}</span>
+              </div>
+              <div class="bar-track">
+                <div
+                  class="bar-fill"
+                  [ngClass]="key"
+                  [style.width]="statusBarWidth(stats.byStatus[key] ?? 0, stats.total)"
+                ></div>
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+
+      
+      <div class="card chart-card">
+        <div class="card-header">
+          <h3 class="card-title">Priority Breakdown</h3>
+        </div>
+        <div class="priority-list">
+          @for (p of [1,2,3,4,5]; track p) {
+            <div class="priority-row">
+              <div class="prio-dot" [class]="'p'+p"></div>
+              <span class="prio-name">{{ priorityLabel(p) }}</span>
+              <div class="prio-bar-track">
+                <div
+                  class="prio-bar-fill"
+                  [class]="'p'+p"
+                  [style.width]="statusBarWidth(stats.byPriority[p] ?? 0, stats.total)"
+                ></div>
+              </div>
+              <span class="prio-count">{{ stats.byPriority[p] ?? 0 }}</span>
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="card recent-card">
+      <div class="card-header">
+        <h3 class="card-title">Recent Activity</h3>
+        <a mat-stroked-button routerLink="/requests" class="view-all-btn">
+          View All
+          <mat-icon iconPositionEnd>arrow_forward</mat-icon>
+        </a>
+      </div>
+
+      @if (!stats.recentRequests.length) {
+        <div class="empty-state" style="padding: 32px 0">
+          <mat-icon class="empty-icon">inbox</mat-icon>
+          <p class="empty-title">No requests yet</p>
+        </div>
+      } @else {
+        <div class="recent-list">
+          @for (req of stats.recentRequests; track req.id) {
+            <a class="recent-row" [routerLink]="['/requests', req.id, 'edit']">
+              <div class="recent-icon" [ngClass]="req.status">
+                <mat-icon>{{ statusIcons[req.status] }}</mat-icon>
+              </div>
+              <div class="recent-info">
+                <span class="recent-title">{{ req.title }}</span>
+                <span class="recent-meta">
+                  {{ req.customer?.full_name }} · {{ req.work_type?.name }}
+                </span>
+              </div>
+              <div class="recent-right">
+                <span class="status-badge {{ req.status }}">{{ req.status | statusLabel }}</span>
+                <span class="recent-date">{{ req.updated_at | date:'MMM d, HH:mm' }}</span>
+              </div>
+            </a>
+          }
+        </div>
+      }
+    </div>
+
+    
+    <div class="quick-actions">
+      <a mat-flat-button color="primary" routerLink="/requests/new">
+        <mat-icon>add</mat-icon>
+        New Request
+      </a>
+      <a mat-stroked-button routerLink="/audit-log">
+        <mat-icon>history</mat-icon>
+        View Audit Log
+      </a>
+    </div>
+  }
+}

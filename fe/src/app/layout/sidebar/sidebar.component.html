@@ -1,0 +1,38 @@
+<aside class="sidebar">
+  
+  <div class="sidebar-logo">
+    <div class="logo-icon">
+      <mat-icon>engineering</mat-icon>
+    </div>
+    <div class="logo-text">
+      <span class="logo-name">FieldScheduler</span>
+      <span class="logo-sub">Service Manager</span>
+    </div>
+  </div>
+
+  <nav class="sidebar-nav">
+    <div class="nav-section-label">Main</div>
+
+    @for (item of navItems; track item.path) {
+      <a
+        class="nav-item"
+        [routerLink]="item.path"
+        routerLinkActive="active"
+        [matTooltip]="item.label"
+        matTooltipPosition="right"
+      >
+        <mat-icon class="nav-icon">{{ item.icon }}</mat-icon>
+        <span class="nav-label">{{ item.label }}</span>
+      </a>
+    }
+  </nav>
+
+  
+  <div class="sidebar-footer">
+    <div class="user-avatar">A</div>
+    <div class="user-info">
+      <span class="user-name">Admin User</span>
+      <span class="user-role">Administrator</span>
+    </div>
+  </div>
+</aside>

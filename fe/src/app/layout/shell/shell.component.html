@@ -1,0 +1,11 @@
+<div class="shell-wrapper" [class.dark-theme]="theme.isDark$ | async">
+  <app-sidebar class="shell-sidebar" />
+
+  <div class="shell-body">
+    <app-header class="shell-header" />
+
+    <main class="shell-content">
+      <router-outlet />
+    </main>
+  </div>
+</div>

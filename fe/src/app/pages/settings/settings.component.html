@@ -1,0 +1,127 @@
+<div class="settings-wrapper">
+  
+  <div class="settings-section">
+    <h2 class="section-title">
+      <mat-icon>palette</mat-icon> Appearance
+    </h2>
+
+    <div class="setting-row">
+      <div class="setting-info">
+        <span class="setting-label">Dark Mode</span>
+        <span class="setting-desc">Switch between light and dark interface themes. Preference is saved locally.</span>
+      </div>
+      <mat-slide-toggle
+        [checked]="theme.isDark$ | async"
+        (change)="theme.toggle()"
+        color="primary"
+      />
+    </div>
+
+    <mat-divider />
+
+    <div class="setting-row">
+      <div class="setting-info">
+        <span class="setting-label">Language</span>
+        <span class="setting-desc">Choose your preferred interface language.</span>
+      </div>
+      <div class="setting-control">
+        <mat-form-field appearance="outline" style="width: 160px">
+          <mat-select [(ngModel)]="language" (ngModelChange)="saveLanguage()">
+            <mat-option value="en">English</mat-option>
+            <mat-option value="uk">Українська</mat-option>
+            <mat-option value="de">Deutsch</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+
+  
+  <div class="settings-section">
+    <h2 class="section-title">
+      <mat-icon>table_chart</mat-icon> Data Table
+    </h2>
+
+    <div class="setting-row">
+      <div class="setting-info">
+        <span class="setting-label">Default Page Size</span>
+        <span class="setting-desc">Number of rows shown per page in the Requests table.</span>
+      </div>
+      <div class="setting-control">
+        <mat-form-field appearance="outline" style="width: 120px">
+          <mat-select [(ngModel)]="pageSize" (ngModelChange)="savePageSize()">
+            <mat-option [value]="10">10</mat-option>
+            <mat-option [value]="25">25</mat-option>
+            <mat-option [value]="50">50</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+
+  
+  <div class="settings-section">
+    <h2 class="section-title">
+      <mat-icon>download</mat-icon> Data Export
+    </h2>
+
+    <div class="setting-row">
+      <div class="setting-info">
+        <span class="setting-label">Export Requests to CSV</span>
+        <span class="setting-desc">
+          Downloads a CSV file with all current requests data. In a production build
+          this would open a native save dialog via IPC.
+        </span>
+      </div>
+      <div class="setting-control">
+        <button mat-flat-button color="primary" (click)="exportData()">
+          <mat-icon>download</mat-icon>
+          Export CSV
+        </button>
+      </div>
+    </div>
+  </div>
+
+  
+  <div class="settings-section">
+    <h2 class="section-title">
+      <mat-icon>notifications</mat-icon> Notifications
+    </h2>
+
+    <div class="setting-row">
+      <div class="setting-info">
+        <span class="setting-label">Enable Toast Notifications</span>
+        <span class="setting-desc">Show brief messages on create/update/delete operations.</span>
+      </div>
+      <mat-slide-toggle [checked]="true" color="primary" disabled />
+    </div>
+
+    <mat-divider />
+
+    <div class="setting-row">
+      <div class="setting-info">
+        <span class="setting-label">Test Notification</span>
+        <span class="setting-desc">Preview what a notification looks like.</span>
+      </div>
+      <div class="setting-control">
+        <button mat-stroked-button (click)="showTestNotification()">
+          <mat-icon>notifications_active</mat-icon>
+          Send Test
+        </button>
+      </div>
+    </div>
+  </div>
+
+  
+  <div class="settings-section about-section">
+    <h2 class="section-title">
+      <mat-icon>info</mat-icon> About
+    </h2>
+    <div class="about-grid">
+      <div class="about-item"><span class="about-label">Application</span><span class="about-value">Field Service Scheduler</span></div>
+      <div class="about-item"><span class="about-label">Version</span><span class="about-value">1.0.0</span></div>
+      <div class="about-item"><span class="about-label">Framework</span><span class="about-value">Angular 18</span></div>
+      <div class="about-item"><span class="about-label">UI Kit</span><span class="about-value">Angular Material 18</span></div>
+    </div>
+  </div>
+</div>

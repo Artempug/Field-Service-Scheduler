@@ -1,0 +1,164 @@
+@if (loading) {
+  <div class="form-loading">
+    <mat-spinner diameter="48" />
+    <p>Loading request…</p>
+  </div>
+} @else if (loadError) {
+  <div class="empty-state">
+    <mat-icon class="empty-icon">error_outline</mat-icon>
+    <p class="empty-title">{{ loadError }}</p>
+    <a mat-stroked-button routerLink="/requests">Back to list</a>
+  </div>
+} @else {
+  <div class="form-layout">
+    <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
+
+      
+      <div class="form-card">
+        <h3 class="form-section-title">
+          <mat-icon>info</mat-icon>
+          Basic Information
+        </h3>
+
+        
+        <mat-form-field appearance="outline" class="field-full">
+          <mat-label>Title *</mat-label>
+          <input matInput formControlName="title" placeholder="e.g. HVAC Unit Installation" />
+          <mat-hint align="end">{{ form.controls.title.value?.length ?? 0 }}/120</mat-hint>
+          @if (fieldError('title'); as err) {
+            <mat-error>{{ err }}</mat-error>
+          }
+        </mat-form-field>
+
+        
+        <mat-form-field appearance="outline" class="field-full">
+          <mat-label>Description</mat-label>
+          <textarea matInput formControlName="description" rows="3"
+            placeholder="Provide additional details about the service request…"></textarea>
+        </mat-form-field>
+
+        <div class="form-row">
+          
+          <mat-form-field appearance="outline" class="field-half">
+            <mat-label>Customer *</mat-label>
+            <mat-select formControlName="customer_id">
+              @for (c of (customers$ | async) ?? []; track c.id) {
+                <mat-option [value]="c.id">{{ c.full_name }}</mat-option>
+              }
+            </mat-select>
+            @if (fieldError('customer_id'); as err) {
+              <mat-error>{{ err }}</mat-error>
+            }
+          </mat-form-field>
+
+          
+          <mat-form-field appearance="outline" class="field-half">
+            <mat-label>Work Type *</mat-label>
+            <mat-select formControlName="work_type_id">
+              @for (wt of (workTypes$ | async) ?? []; track wt.id) {
+                <mat-option [value]="wt.id">{{ wt.name }}</mat-option>
+              }
+            </mat-select>
+            @if (fieldError('work_type_id'); as err) {
+              <mat-error>{{ err }}</mat-error>
+            }
+          </mat-form-field>
+        </div>
+
+        <div class="form-row">
+          
+          <mat-form-field appearance="outline" class="field-half">
+            <mat-label>Zone</mat-label>
+            <mat-select formControlName="zone_id">
+              <mat-option [value]="null">No zone</mat-option>
+              @for (z of (zones$ | async) ?? []; track z.id) {
+                <mat-option [value]="z.id">{{ z.name }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+
+      
+      <div class="form-card">
+        <h3 class="form-section-title">
+          <mat-icon>tune</mat-icon>
+          Status & Priority
+        </h3>
+
+        <div class="form-row">
+          
+          <mat-form-field appearance="outline" class="field-half">
+            <mat-label>Status *</mat-label>
+            <mat-select formControlName="status">
+              @for (s of statuses; track s.value) {
+                <mat-option [value]="s.value">
+                  <span class="status-badge {{ s.value }}">{{ s.label }}</span>
+                </mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+
+          
+          <mat-form-field appearance="outline" class="field-half">
+            <mat-label>Priority *</mat-label>
+            <mat-select formControlName="priority">
+              <mat-option [value]="1"><span class="prio-opt"><span class="priority-dot p1"></span> Critical</span></mat-option>
+              <mat-option [value]="2"><span class="prio-opt"><span class="priority-dot p2"></span> High</span></mat-option>
+              <mat-option [value]="3"><span class="prio-opt"><span class="priority-dot p3"></span> Medium</span></mat-option>
+              <mat-option [value]="4"><span class="prio-opt"><span class="priority-dot p4"></span> Low</span></mat-option>
+              <mat-option [value]="5"><span class="prio-opt"><span class="priority-dot p5"></span> Minimal</span></mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+
+      
+      <div class="form-actions">
+        <a mat-stroked-button routerLink="/requests">Cancel</a>
+        <button
+          mat-flat-button
+          color="primary"
+          type="submit"
+          [disabled]="form.invalid || saving"
+        >
+          @if (saving) {
+            <ng-container>
+              <mat-spinner diameter="18" class="btn-spinner" />
+              Saving…
+            </ng-container>
+          } @else {
+            <ng-container>
+              <mat-icon>{{ isEdit ? 'save' : 'add' }}</mat-icon>
+              {{ isEdit ? 'Save Changes' : 'Create Request' }}
+            </ng-container>
+          }
+        </button>
+      </div>
+
+    </form>
+
+    
+    <aside class="form-aside">
+      <div class="aside-card">
+        <h4 class="aside-title">
+          <mat-icon>lightbulb</mat-icon>
+          Tips
+        </h4>
+        <ul class="tips-list">
+          <li>Fill in <strong>Title</strong>, <strong>Customer</strong> and <strong>Work Type</strong> — they are required.</li>
+          <li>Assign a <strong>Zone</strong> to help dispatch the nearest technician.</li>
+          <li>Use <strong>Priority 1 (Critical)</strong> only for immediate safety issues.</li>
+          <li>Change <strong>Status</strong> to <em>Scheduled</em> once a technician is assigned.</li>
+        </ul>
+      </div>
+
+      @if (isEdit) {
+        <div class="aside-card edit-note">
+          <mat-icon>edit_note</mat-icon>
+          <span>You are editing an existing request. All changes are logged in the Audit Log.</span>
+        </div>
+      }
+    </aside>
+  </div>
+}
