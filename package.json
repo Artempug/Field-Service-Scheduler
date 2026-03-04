@@ -2,7 +2,7 @@
   "name": "field-service-scheduler",
   "version": "1.0.0",
   "description": "Field Service Scheduling Desktop Application",
-  "main": "main.js",
+  "main": "electron/main.js",
   "scripts": {
     "start": "electron .",
     "dev": "concurrently \"npm run fe:serve\" \"wait-on http://localhost:4200 && electron . --dev\"",
@@ -17,9 +17,7 @@
     "appId": "com.fss.app",
     "productName": "Field Service Scheduler",
     "files": [
-      "main.js",
-      "preload.js",
-      "src/**/*",
+      "electron/**/*",
       "db/**/*",
       "fe/dist/**/*"
     ],

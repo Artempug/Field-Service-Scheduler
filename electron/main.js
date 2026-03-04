@@ -36,7 +36,7 @@ function createWindow() {
     mainWindow.webContents.openDevTools();
   } else {
     mainWindow.loadFile(
-      path.join(__dirname, 'fe', 'dist', 'fe', 'browser', 'index.html'),
+      path.join(__dirname, '..', 'fe', 'dist', 'fe', 'browser', 'index.html'),
     );
   }
 
@@ -45,7 +45,7 @@ function createWindow() {
 
 // ── System Tray ─────────────────────────────────────────────────────────────
 function createTray() {
-  const iconPath = path.join(__dirname, 'fe', 'public', 'favicon.ico');
+  const iconPath = path.join(__dirname, '..', 'fe', 'public', 'favicon.ico');
   let trayIcon;
   try {
     trayIcon = nativeImage.createFromPath(iconPath);

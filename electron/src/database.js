@@ -9,7 +9,7 @@ let db = null;
 
 // ── Schema ───────────────────────────────────────────────────────────────────
 function runSchema() {
-  const schemaPath = path.join(__dirname, '..', 'db', 'schema.sql');
+  const schemaPath = path.join(__dirname, '..', '..', 'db', 'schema.sql');
   const schema = fs.readFileSync(schemaPath, 'utf-8');
   db.exec(schema);
 }
